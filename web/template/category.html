@@ -1,0 +1,84 @@
+{{ define "category.layout" }}
+
+    {{ template "navbar" . }}
+    {{ template "category.content" . }}
+    {{ template "footer" . }}
+
+{{ end }}
+
+{{ define "category.content" }}
+
+    <div id="selectordiv" style="display: none">white</div>
+    <h1 class="headline2">Fundraising Categories</h1>
+    <div class="category-body">
+    <div class="card-deck" style="margin-bottom: -30px;">
+        <div class="card" data-clickable="true" data-href="#" id="cat-card">
+            <img src="../assets/img/charitypic9.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" style="color: rgb(0, 174, 255);">Women</h5>
+            </div>
+        </div>
+        <div class="card" data-clickable="true" data-href="#" id="cat-card">
+            <img src="../assets/img/charitypic10.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" style="color: rgb(0, 174, 255);">Medical</h5>
+            </div>
+        </div>
+        <div class="card" data-clickable="true" data-href="#" id="cat-card">
+            <img src="../assets/img/cha.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" style="color: rgb(0, 174, 255);">Educational</h5>
+            </div>
+        </div>
+    </div>
+    <div class="card-deck">
+        <div class="card" data-clickable="true" data-href="#" id="cat-card">
+            <img src="../assets/img/charitypic9.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" style="color: rgb(0, 174, 255);">Orphanage</h5>
+            </div>
+        </div>
+        <div class="card" data-clickable="true" data-href="#" id="cat-card">
+            <img src="../assets/img/charitypic10.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" style="color: rgb(0, 174, 255);">Religious</h5>
+            </div>
+        </div>
+        <div class="card" data-clickable="true" data-href="#" id="cat-card">
+            <img src="../assets/img/cha.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title" style="color: rgb(0, 174, 255);">Other</h5>
+            </div>
+        </div>
+    </div>
+    </div>
+    <h1 class="headline3">Individuals</h1>
+    <div class="card mb-3" style="margin-left: 100px; margin-right: 100px; margin-top: 50px;">
+        <div class="row no-gutters" style="height: 400px;">
+            <div class="col-md-7">
+                <img src="../assets/img/charitypic.jpg" class="card-img" alt="..." style="height:400px; width: 600px;">
+            </div>
+            <div class="col-md-5">
+                <div class="card-body" style="margin-left: -50px">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id nam, minus voluptatem ad sapiente asperiores excepturi vitae provident earum ducimus iure. Lorem ipsum dolor sit amet consectetur adipisicing elit. Id nam, minus voluptatem ad sapiente asperiores excepturi vitae provident earum ducimus iure</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card" style="margin-left: 100px; margin-right: 100px; margin-top: 80px;">
+        <div class="row no-gutters" style="height: 400px;">
+            <div class="col-md-5">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Id nam, minus voluptatem ad sapiente asperiores excepturi vitae provident earum ducimus iure. Lorem ipsum dolor sit amet consectetur adipisicing elit. Id nam, minus voluptatem ad sapiente asperiores excepturi vitae provident earum ducimus iure</p>
+                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <img src="../assets/img/charitypic.jpg" class="card-img" alt="..." style="height:400px; width: 670px;">
+            </div>
+        </div>
+    </div>
+{{ end }}
