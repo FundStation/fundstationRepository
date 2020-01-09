@@ -111,7 +111,38 @@
 
 
 </script>
+     <script>
+            const readImgBtn = document.getElementById("read-img");
+            const readFileBtn = document.getElementById("read-file");
+            const customBtn = document.getElementById("custom-btn");
+            const customBtn2 = document.getElementById("custom-btn2");
+            const customTxt = document.getElementById("custom-txt");
+            const customTxt2 = document.getElementById("custom-txt2");
+            customBtn.addEventListener("click", function () {
+                readImgBtn.click();
+            });
+            customBtn2.addEventListener("click", function () {
+                readFileBtn.click();
+            });
 
+            readImgBtn.addEventListener("change", function () {
+               if (readImgBtn.value) {
+                   customTxt.innerHTML = readImgBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+               }
+               else {
+                   customTxt.innerHTML = "Click to upload file";
+               }
+            });
+            readFileBtn.addEventListener("change", function () {
+                if (readFileBtn.value) {
+                    customTxt2.innerHTML = readFileBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+                }
+                else {
+                    customTxt2.innerHTML = "Click to upload file";
+                }
+            });
+
+        </script>
 
 
 <script src="/assets/js/bootstrap.bundle.min.js" ></script>
