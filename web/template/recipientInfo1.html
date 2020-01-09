@@ -1,0 +1,63 @@
+{{ define "recipientInfo1.layout" }}
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <!-- css -->
+        <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../assets/css/info.css">
+    </head>
+    {{ template "recipientInfo1.content" . }}
+    {{ template "footer" . }}
+
+{{ end }}
+
+{{ define "recipientInfo1.content" }}
+<body>
+    <div class="wrapper">
+        <div class="card" style="width: 1000px; margin: 80px 200px">
+            <div class="card-body">
+                <form method="POST" action="/recipientInfo" enctype="multipart/form-data">
+                    <h1>FundStation</h1>
+                    <h5>Hello there! Please attach a file that proves that you need our help. And write a description of you situation so people can read it and donate!</h5>
+                    <hr class="sep"/>
+                    <h4>Account Number</h4>
+                    <p style="color: #808080">Enter your account number: </p>
+                    <div class="group">
+                        <input type="text" required="required" name="accountNo"/><span class="highlight"></span><span class="bar"></span>
+                        <label>Account Number</label>
+                    </div>
+                    <h4>Image</h4>
+                    <p style="color: #808080">Upload your picture: </p>
+                    <div class="group">
+                        <input id="read-img" type="file" name="recpimg" hidden/>
+                        <button type="button" id="custom-btn">CHOOSE FILE</button>
+                        <span id="custom-txt">Click to upload file</span>
+                    </div>
+                    <p>Describe your situation here: </p>
+                    <div class="group">
+                        <textarea name="description" type="textarea" rows="5" required="required"></textarea><span class="highlight"></span><span class="bar"></span>
+                        <label>Description</label>
+                    </div>
+                    <h4>File</h4>
+                    <p style="color: #808080">Upload your file: </p>
+                    <div class="group">
+                        <input id="read-file" type="file" name="attachment" hidden/>
+                        <button type="button" id="custom-btn2">CHOOSE FILE</button>
+                        <span id="custom-txt2">Click to upload file</span>
+                    </div>
+                    <div class="btn-box">
+                        <button class="btn btn-submit" type="submit">submit</button>
+                        <button class="btn btn-cancel" type="button">cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../assets/js/bootstrap.min.js" ></script>
+    <script src="../assets/js/jquery-3.4.1.js" ></script>
+
+{{end}}
