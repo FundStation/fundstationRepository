@@ -15,7 +15,7 @@ func NewPsqlRecipientRepository(Conn *sql.DB) *PsqlRecipientRepository {
 	return &PsqlRecipientRepository{conn: Conn}
 }
 
-func (pr *PsqlRecipientRepository) InsertRecipient(r models.Recipient) error {
+func (pr *PsqlRecipientRepository) InsertRecipient(r *models.Recipient) error {
 
 	err := pr.conn.QueryRow("INSERT INTO recipient(firstname,lastname,address,username,password,phone,email) VALUES($1, $2, $3, $4, $5, $6, $7) returning id", r.FirstName, r.LastName, r.Address, r.Username, r.Password, r.PhoneNumber, r.EmailAddress).Scan(&r.RecipientNo)
 	if err != nil {
