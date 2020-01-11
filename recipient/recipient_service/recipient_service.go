@@ -13,7 +13,7 @@ func NewRecipientService(reciRepo recipient.RecipientRepository) *RecipientServi
 	return &RecipientService{rRepo: reciRepo}
 }
 
-func (rs *RecipientService) SignupRecipient(recipient models.Recipient) error {
+func (rs *RecipientService) SignupRecipient(recipient *models.Recipient) error {
 
 	err := rs.rRepo.InsertRecipient(recipient)
 
