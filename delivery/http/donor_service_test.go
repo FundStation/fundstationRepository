@@ -2,10 +2,10 @@ package main
 
 import (
 	"bytes"
-	"github.com/FundStation2/delivery/http/handler"
-	"github.com/FundStation2/donor/donor_repository"
-	"github.com/FundStation2/donor/donor_service"
-	"github.com/FundStation2/models"
+	"github.com/FundStation/delivery/http/handler"
+	"github.com/FundStation/donor/donor_repository"
+	"github.com/FundStation/donor/donor_service"
+	"github.com/FundStation/models"
 	"html/template"
 	"io/ioutil"
 	"net/http"
