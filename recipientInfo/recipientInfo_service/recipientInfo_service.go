@@ -44,3 +44,16 @@ func (ris *RecipientInfoService) ApproveRecipientInfo(id int) (err error) {
 
 	return nil
 }
+func (ris *RecipientInfoService) AccountExistsInfo(account string) bool {
+	isAccountInfo:= ris.rInfoRepo.AccountExistsInfo(account)
+	return isAccountInfo
+}
+func (ris *RecipientInfoService) SelectApproved() (rinfo []models.RecipientInfo,err error){
+	rinfo,err=ris.rInfoRepo.SelectApproved()
+	if(err != nil){
+		return rinfo,err
+
+	}
+	return rinfo,nil
+
+}
