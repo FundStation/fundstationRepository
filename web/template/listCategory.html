@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<table style="margin-top: 70px;" class="col-lg-12 table table-striped table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th></th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {{range .}}
+        <form action="specific" method="post">
+        <tr>
+            <td ><input type="hidden" value="{{.Name}}" name="catName" ></td>
+            <td>
+                <img src="../assets/img/{{.Image}}">
+            </td>
+            <td>{{ .Name}}</td>
+            <td><input type="submit" value="View"></td>
+
+        </tr>
+        </form>
+    {{end}}
+    </tbody>
+</table>
+
+</body>
+</html>

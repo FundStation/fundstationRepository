@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Login</title>
+        <script src="jquery-3.4.1.js"></script>
+    </head>
+    <body>
+        <form action="/donor/login" method="POST">
+            <div style="display:block;">
+                <label>User Name:</label>
+                <input type="text" name="dlusername" placeholder="User Name">
+            </div>
+            <div style="display:block;">
+                <label>Password:</label>
+                <input type="password" name="dlpassword" placeholder="Password">
+            </div>
+            <input type="submit">
+        </div>
+        <div style="display:block;">
+         {{ . }}
+         </div>
+    </form>
+</body>
+</html>
