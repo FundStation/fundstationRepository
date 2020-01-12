@@ -43,3 +43,34 @@ func (pr *PsqlRecipientInfoRepository) UpdateRecipientInfo(recipientInfoNo int) 
 	return nil
 
 }
+func (pr *PsqlRecipientInfoRepository) AccountExistsInfo(account string) bool {
+
+	err := pr.conn.QueryRow("SELECT * FROM recipientinfo WHERE accountno=$1", account)
+
+	if err != nil {
+		return false
+	}
+
+	return true
+}
+func (pr *PsqlRecipientInfoRepository) SelectApproved() ( []models.RecipientInfo, error){
+	recps := []models.RecipientInfo{}
+	rinfo := models.RecipientInfo{}
+	var bAct models.BankAccount
+	selRec,err := pr.conn.Query("SELECT (image,description,submitteddate,accountno) FROM recipientinfo WHERE approval=$1", "yes")
+
+	rinfo.BankAccount = bAct
+	if err != nil {
+		return recps,err
+	}
+
+	for selRec.Next() {
+		err := selRec.Scan(&rinfo.Image,&rinfo.Description,bAct.AccountNo)
+		if err != nil {
+			return recps, errors.New("Couldnot")
+		}
+		recps = append(recps, rinfo)
+	}
+	return recps, nil
+}
+
