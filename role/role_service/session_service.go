@@ -1,8 +1,8 @@
 package role_service
 
 import (
-	"github.com/FundStation2/models"
-	"github.com/FundStation2/role"
+	"github.com/FundStation/models"
+	"github.com/FundStation/role"
 )
 
 
