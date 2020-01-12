@@ -2,7 +2,7 @@ package handler
 
 import (
 	"fmt"
-	"github.com/FundStation2/category"
+	"github.com/FundStation/category"
 	"html/template"
 	"net/http"
 )
