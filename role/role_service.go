@@ -1,6 +1,6 @@
 package role
 
-import "github.com/FundStation2/models"
+import "github.com/FundStation/models"
 
 type RoleService interface {
 	Roles() ([]models.Role, error)
