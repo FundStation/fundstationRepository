@@ -6,14 +6,18 @@
         <script src="jquery-3.4.1.js"></script>
     </head>
     <body>
-        <form action="/dlogin" method="POST">
+        <form action="/rlogin" method="POST">
             <div style="display:block;">
                 <label>User Name:</label>
-                <input type="text" name="dlusername" placeholder="User Name">
+                <input type="text" name="lusername" placeholder="First Name">
             </div>
             <div style="display:block;">
                 <label>Password:</label>
-                <input type="text" name="dlpassword" placeholder="Password">
+                <input type="text" name="lpassword" placeholder="Last Name">
+            </div>
+            <div style="display:block;">
+                <label>Remember me:</label>
+                <input type="checkboxt" value="1" name="remember">
             </div>
             <input type="submit">
         </div>
