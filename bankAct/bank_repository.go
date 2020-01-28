@@ -7,4 +7,6 @@ import (
 type BankRepository interface {
 	SelectAccountNo(string) (models.BankAccount, error)
 	UpdateBalance(string, float64) error
+	AccountExists(account string) bool
+
 }
