@@ -20,4 +20,3 @@ func (hh *HomeHandler) Home(w http.ResponseWriter, r *http.Request) {
 	 hh.tmpl.ExecuteTemplate(w,"home.layout",nil)
 }
 
-
