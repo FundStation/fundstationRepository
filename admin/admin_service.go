@@ -1,6 +1,7 @@
 package admin
 
+import "github.com/FundStation/models"
+
 type AdminService interface {
-	//ViewAllRecipient() ([]models.Recipient, error)
-	//ViewSpecificRecipient(int) (models.RecipientInfo, error)
+	LoginAdmin(string) (*models.Admin,error)
 }
