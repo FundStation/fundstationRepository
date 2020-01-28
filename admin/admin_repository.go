@@ -1,7 +1,7 @@
 package admin
 
-type AdminRepository interface {
-	//SelectAllRecipient() ([]models.Recipient, error)
-	//SelectSpecificRecipient(int) (models.RecipientInfo, error)
+import "github.com/FundStation2/models"
 
+type AdminRepository interface {
+	SelectAdmin(string) (*models.Admin,error)
 }
