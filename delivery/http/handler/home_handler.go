@@ -6,9 +6,18 @@ import (
 )
 
 
-var tmpl = template.Must(template.ParseGlob("web/template/*"))
 
-func Home(w http.ResponseWriter, r *http.Request) {
-	tmpl.ExecuteTemplate(w,"home.layout",nil)
+type HomeHandler struct {
+	tmpl        *template.Template
 }
+
+
+func NewHomeHandler(T *template.Template) *HomeHandler {
+	return &HomeHandler{tmpl: T}
+}
+func (hh *HomeHandler) Home(w http.ResponseWriter, r *http.Request) {
+
+	 hh.tmpl.ExecuteTemplate(w,"home.layout",nil)
+}
+
 
