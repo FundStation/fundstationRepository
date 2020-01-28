@@ -2,9 +2,8 @@ package admin_repository
 
 import (
 	"database/sql"
-	//_ "github.com/lib/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
-	"github.com/FundStation2/models"
+	"github.com/FundStation/models"
 )
 
 type PsqlAdminRepository struct {
