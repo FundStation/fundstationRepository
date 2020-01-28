@@ -2,13 +2,11 @@ package handler
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"github.com/FundStation/permission"
 	"github.com/FundStation/recipient"
 	"github.com/FundStation/role"
 	"github.com/FundStation/session"
-	"github.com/julienschmidt/httprouter"
 	"golang.org/x/crypto/bcrypt"
 	"strings"
 
@@ -145,7 +143,7 @@ func (rch *RecipientHandler) RecipientSignup(w http.ResponseWriter, r *http.Requ
 		newDonForm := form.Input{Values: r.PostForm, VErrors: form.ValidationErrors{}}
 		newDonForm.Required("firstName", "lastName","add","userName","password","repassword","phone","email")
 		newDonForm.MinLength("password", 8)
-		newDonForm.MinLength("phone",10)
+		newDonForm.ExactLength("phone",10)
 		newDonForm.PasswordMatches("password","repassword")
 		newDonForm.CSRF = token
 
@@ -153,15 +151,17 @@ func (rch *RecipientHandler) RecipientSignup(w http.ResponseWriter, r *http.Requ
 			rch.tmpl.ExecuteTemplate(w, "recipientSignup.html", newDonForm)
 			return
 		}
-		pExists := rch.recpService.PhoneExists(r.FormValue("phone"))
-		if pExists {
-			newDonForm.VErrors.Add("phone", "Phone Already Exists")
-			rch.tmpl.ExecuteTemplate(w, "recipientSignup.html", newDonForm)
-			return
-		}
+
 		eExists := rch.recpService.EmailExists(r.FormValue("email"))
 		if eExists {
 			newDonForm.VErrors.Add("email", "Email Already Exists")
+			rch.tmpl.ExecuteTemplate(w, "recipientSignup.html", newDonForm)
+			return
+		}
+
+		pExists := rch.recpService.PhoneExists(r.FormValue("phone"))
+		if pExists {
+			newDonForm.VErrors.Add("phone", "Phone Already Exists")
 			rch.tmpl.ExecuteTemplate(w, "recipientSignup.html", newDonForm)
 			return
 		}
@@ -207,15 +207,29 @@ func (rch *RecipientHandler) RecipientSignup(w http.ResponseWriter, r *http.Requ
 		fmt.Println(recp)
 
 		_,erro :=rch.recpService.SignupRecipient(&recp)
-
+	fmt.Println(erro)
 		if erro != nil{
 			panic(err)
 
 		}
+		rch.loggedInRecipient = &recp
+		claims := tokens.Claims(recp.Username, rch.recpSess.Expires)
+		session.Create(claims, rch.recpSess.UUID, rch.recpSess.SigningKey, w)
+
+		newSess, errs := rch.sessionService.StoreSession(rch.recpSess)
+		if errs != nil {
+			newDonForm.VErrors.Add("generic", "Failed to store session")
+			rch.tmpl.ExecuteTemplate(w, "recipientSignup.html", newDonForm)
+			return
+		}
+		rch.recpSess = newSess
 		http.Redirect(w, r, "/recipientInfo", http.StatusSeeOther)
+		//rch.tmpl.ExecuteTemplate(w,"recipientInfo1.layout",nil)
 
 	}
 }
+
+
 func (rch *RecipientHandler) RecipientLogin(w http.ResponseWriter, r *http.Request) {
 	token, err := tokens.CSRFToken(rch.csrfSignKey)
 	if err != nil {
@@ -235,7 +249,6 @@ func (rch *RecipientHandler) RecipientLogin(w http.ResponseWriter, r *http.Reque
 		return
 	}
 	if r.Method == http.MethodPost {
-		// Parse the form data
 		err := r.ParseForm()
 		if err != nil {
 			http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
@@ -244,14 +257,14 @@ func (rch *RecipientHandler) RecipientLogin(w http.ResponseWriter, r *http.Reque
 		loginForm := form.Input{Values: r.PostForm, VErrors: form.ValidationErrors{}}
 		rec, errs := rch.recpService.RecipientByUsername(r.FormValue("lusername"))
 		if errs != nil{
-			loginForm.VErrors.Add("generic", "Your username or password is wrong")
+			loginForm.VErrors.Add("generic", "Username or Password is wrong")
 			rch.tmpl.ExecuteTemplate(w, "rlogin.html", loginForm)
 			return
 		}
 		err = bcrypt.CompareHashAndPassword([]byte(rec.Password), []byte(r.FormValue("lpassword")))
 
 		if err == bcrypt.ErrMismatchedHashAndPassword {
-			loginForm.VErrors.Add("generic", "Your username or password is wrong")
+			loginForm.VErrors.Add("generic", "Username or Password is wrong")
 			rch.tmpl.ExecuteTemplate(w, "rlogin.html", loginForm)
 			return
 		}
@@ -267,136 +280,49 @@ func (rch *RecipientHandler) RecipientLogin(w http.ResponseWriter, r *http.Reque
 			return
 		}
 		rch.recpSess = newSess
+		fmt.Println("recpSesss",rch.recpSess)
 		roles, _ := rch.recpRole.RecipientRoles(rec)
+
+		recpInfo:=rch.SelectByUsername(r.FormValue("lusername"))
+
 		if rch.checkRecipient(roles) {
-			http.Redirect(w, r, "/recipient/signup", http.StatusSeeOther)
+
+			rch.tmpl.ExecuteTemplate(w,"recipientPage.layout",recpInfo)
 			return
 		}
-		http.Redirect(w, r, "/home", http.StatusSeeOther)
+		//http.Redirect(w, r, "/recipientInfo", http.StatusSeeOther)
+		http.Redirect(w, r, "/recipient/signup", http.StatusSeeOther)
 
 	}
 }
 
 func (rch *RecipientHandler) Logout(w http.ResponseWriter, r *http.Request) {
 	recSess, _ := r.Context().Value(ctxUserSessionKey).(*models.Session)
-	session.Remove(recSess.UUID, w)
-	rch.sessionService.DeleteSession(recSess.UUID)
-	http.Redirect(w, r, "/recipient/login", http.StatusSeeOther)
+    fmt.Println("recSess",recSess)
+	//session.Remove(recSess.UUID, w)
+	//rch.sessionService.DeleteSession(recSess.UUID)
+	http.Redirect(w, r, "/home", http.StatusSeeOther)
 }
 
 func (rch *RecipientHandler) loggedIn(r *http.Request) bool {
 	if rch.recpSess== nil {
+		fmt.Println("la1")
 		return false
 	}
 	recSess := rch.recpSess
 	c, err := r.Cookie(recSess.UUID)
 	if err != nil {
+		fmt.Println("la2",err)
 		return false
 	}
 	ok, err := session.Valid(c.Value, recSess.SigningKey)
 	if !ok || (err != nil) {
+		fmt.Println("la3",err)
 		return false
 	}
 	return true
 }
 
-func (rch *RecipientHandler) GetRecipients(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-
-	recp, errs :=rch.recpService.ViewAllRecipient();
-	fmt.Println(recp)
-
-	if errs != nil {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
-
-	output, err := json.MarshalIndent(recp, "", "\t\t")
-
-	if err != nil {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(output)
-
-	return
-
-}
-
-func (rch *RecipientHandler) GetRecipient(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	username := ps.ByName("lusername")
-	//password:=ps.ByName("dlpassword")
-	//donor:=models.Donor{
-	//	Username :username,
-	//	Password:password,
-	//}
-	//if err != nil {
-	//	w.Header().Set("Content-Type", "application/json")
-	//	http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-	//	return
-	//}
-
-	rec,errs := rch.recpService.RecipientByUsername(username)
-	fmt.Println(rec)
-
-	if errs != nil {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
-
-	output, err := json.MarshalIndent(rec, "", "\t\t")
-
-	if err != nil {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(output)
-	return
-}
-func (rch *RecipientHandler) PostRecipient(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-
-	l := r.ContentLength
-	body := make([]byte, l)
-	r.Body.Read(body)
-	recipient:= &models.Recipient{
-		FirstName:r.FormValue("firstName"),
-		LastName:r.FormValue("lastName"),
-		Address:r.FormValue("add"),
-		Occupation:r.FormValue("occupation"),
-		Username:r.FormValue("userName"),
-		Password:r.FormValue("password"),
-		EmailAddress:r.FormValue("email"),
-		PhoneNumber:r.FormValue("phone"),
-	}
-
-	err := json.Unmarshal(body, recipient)
-
-	if err != nil {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
-
-	rec, errs := rch.recpService.SignupRecipient(recipient)
-
-	if errs != nil {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
-
-	p := fmt.Sprintf("/v1/doner/%s", rec.Username)
-	w.Header().Set("Location", p)
-	w.WriteHeader(http.StatusCreated)
-	return
-}
 
 func (rch *RecipientHandler) checkRecipient(r models.Role) bool {
 
@@ -406,3 +332,11 @@ func (rch *RecipientHandler) checkRecipient(r models.Role) bool {
 
 	return false
 }
+
+func (rch *RecipientHandler) SelectByUsername(username string)*models.RecipientInfo{
+	recpi,_:=rch.recpService.SelectByUsername(username)
+	return recpi
+
+}
+
+
