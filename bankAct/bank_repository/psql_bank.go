@@ -3,8 +3,9 @@ package bank_repository
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"github.com/FundStation/models"
-	_ "github.com/lib/go-sql-driver/mysql"
+	//_ "github.com/lib/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 )
 
@@ -34,4 +35,16 @@ func (pr *PsqlBankRepository) UpdateBalance(aNo string, newBalnc float64) error 
 	}
 	return nil
 
+}
+func (pr *PsqlBankRepository) AccountExists(account string) bool {
+	var balance string
+	err := pr.conn.QueryRow("SELECT balance FROM bankInfo WHERE accountno=$1",account).Scan(&balance)
+
+	if err != nil {
+		fmt.Println("accountExist",account)
+		fmt.Println("bankerr",err)
+		return true
+	}
+
+	return false
 }
