@@ -61,3 +61,7 @@ func (bs BankService) Transfer(donAccountNo string, recAccountNo string, transAm
 	return nil
 
 }
+func (bs  BankService) AccountExists(account string) bool {
+	isAccount:= bs.bankRepo.AccountExists(account)
+	return isAccount
+}
