@@ -1,7 +1,7 @@
 package disaster
 
 
-import "github.com/FundStation2/models"
+import "github.com/FundStation/models"
 
 type DisasterService interface {
 	ViewDisaster() ([]models.Disaster, error)
