@@ -29,6 +29,16 @@ func (inVal *Input) MinLength(field string, d int) {
 	if utf8.RuneCountInString(value) < d {
 		inVal.VErrors.Add(field, fmt.Sprintf("This field is too short (minimum is %d characters)", d))
 	}
+
+}
+func (inVal *Input) ExactLength(field string, d int) {
+	value := inVal.Values.Get(field)
+	if value == "" {
+		return
+	}
+	if utf8.RuneCountInString(value) != d {
+		inVal.VErrors.Add(field, fmt.Sprintf("This field  should should contain exactly  %d characters)", d))
+	}
 }
 
 
