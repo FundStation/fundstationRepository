@@ -7,5 +7,7 @@ type RecipientInfoRepository interface {
 	SelectRecipientInfo(int) (models.RecipientInfo, error)
 	UpdateRecipientInfo(int) error
 	AccountExistsInfo(account string) bool
-	SelectApproved() (rinfo []models.RecipientInfo,err error)
+	SelectApproved() ( []models.DonationInfo, error)
+	SelectIndividualById(id int) ( models.DonationInfo, error)
+	DeleteRecipientInfoById(int) (error)
 }
