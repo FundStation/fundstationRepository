@@ -2,13 +2,11 @@ package handler
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"github.com/FundStation/donor"
 	"github.com/FundStation/permission"
 	"github.com/FundStation/role"
 	"github.com/FundStation/session"
-	"github.com/julienschmidt/httprouter"
 	"golang.org/x/crypto/bcrypt"
 	"strings"
 
@@ -113,8 +111,28 @@ func (dch *DonorHandler) Doners(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(tmplData)
 	dch.tmpl.ExecuteTemplate(w, "donors.html", tmplData)
 }
+var bankAcnt string
+func (dch *DonorHandler) Donor(w http.ResponseWriter, r *http.Request) {
+	token, err := tokens.CSRFToken(dch.csrfSignKey)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+	}
+
+		newCatForm := struct {
+			Values  url.Values
+			VErrors form.ValidationErrors
+			CSRF    string
+		}{
+			Values:  nil,
+			VErrors: nil,
+			CSRF:    token,
+		}
+		bankAcnt = r.FormValue("Eaccount")
+		dch.tmpl.ExecuteTemplate(w, "donorSignup.html", newCatForm)
 
 
+
+}
 func (dch *DonorHandler) DonorSignup(w http.ResponseWriter, r *http.Request) {
 	token, err := tokens.CSRFToken(dch.csrfSignKey)
 	if err != nil {
@@ -201,7 +219,7 @@ func (dch *DonorHandler) DonorSignup(w http.ResponseWriter, r *http.Request) {
 			PhoneNumber:  r.FormValue("phone"),
 			EmailAddress: r.FormValue("email"),
 			RoleID:uint(role.ID),
-			//BankAct: req.FormValue("bankAct"),
+
 		}
 		fmt.Println(donor)
 
@@ -210,10 +228,24 @@ func (dch *DonorHandler) DonorSignup(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err)
 
 		}
-		http.Redirect(w, r, "/home", http.StatusSeeOther)
+		dch.loggedInDonor = donor
+		fmt.Println(err)
+
+		claims := tokens.Claims(donor.Username, dch.donorSess.Expires)
+		session.Create(claims, dch.donorSess.UUID, dch.donorSess.SigningKey, w)
+		newSess, errs := dch.sessionService.StoreSession(dch.donorSess)
+		if errs != nil {
+			newDonForm.VErrors.Add("generic", "Failed to store session")
+			dch.tmpl.ExecuteTemplate(w, "donorLogin.html", newDonForm)
+			return
+		}
+		dch.donorSess = newSess
+		http.Redirect(w, r, "/category/donation", http.StatusSeeOther)
 
 	}
 }
+
+
 func (dch *DonorHandler) DonorLogin(w http.ResponseWriter, r *http.Request) {
 	token, err := tokens.CSRFToken(dch.csrfSignKey)
 	if err != nil {
@@ -229,7 +261,9 @@ func (dch *DonorHandler) DonorLogin(w http.ResponseWriter, r *http.Request) {
 			VErrors: nil,
 			CSRF:    token,
 		}
-		dch.tmpl.ExecuteTemplate(w, "dlogin.html", loginForm)
+		bankAcnt := bankAcnt
+		fmt.Println(bankAcnt)
+		dch.tmpl.ExecuteTemplate(w, "donorLogin.html", loginForm)
 		return
 	}
 	if r.Method == http.MethodPost {
@@ -241,16 +275,17 @@ func (dch *DonorHandler) DonorLogin(w http.ResponseWriter, r *http.Request) {
 		}
 		loginForm := form.Input{Values: r.PostForm, VErrors: form.ValidationErrors{}}
 		don, errs := dch.donorService.DonorByUsername(r.FormValue("dlusername"))
+		fmt.Println("don",errs)
 		if errs != nil{
-			loginForm.VErrors.Add("generic", "Your username or password is wrong")
-			dch.tmpl.ExecuteTemplate(w, "dlogin.html", loginForm)
+			loginForm.VErrors.Add("generic", "Username or Password is wrong")
+			dch.tmpl.ExecuteTemplate(w, "donorLogin.html", loginForm)
 			return
 		}
 		err = bcrypt.CompareHashAndPassword([]byte(don.Password), []byte(r.FormValue("dlpassword")))
-
+		fmt.Println("errNow",err)
 		if err == bcrypt.ErrMismatchedHashAndPassword {
-			loginForm.VErrors.Add("generic", "Your username or password is wrong")
-			dch.tmpl.ExecuteTemplate(w, "dlogin.html", loginForm)
+			loginForm.VErrors.Add("generic", "Username or Password is wrong")
+			dch.tmpl.ExecuteTemplate(w, "donorLogin.html", loginForm)
 			return
 		}
 
@@ -262,19 +297,20 @@ func (dch *DonorHandler) DonorLogin(w http.ResponseWriter, r *http.Request) {
 		newSess, errs := dch.sessionService.StoreSession(dch.donorSess)
 		if errs != nil {
 			loginForm.VErrors.Add("generic", "Failed to store session")
-			dch.tmpl.ExecuteTemplate(w, "dlogin.html", loginForm)
+			dch.tmpl.ExecuteTemplate(w, "donorLogin.html", loginForm)
 			return
 		}
 		dch.donorSess = newSess
 		roles, _ := dch.donorRole.DonorRoles(don)
-		if dch.checkAdmin(roles) {
-			http.Redirect(w, r, "/donor/signup", http.StatusSeeOther)
+		if dch.checkDonor(roles) {
+			http.Redirect(w, r, "/category/donation", http.StatusSeeOther)
 			return
 		}
-		http.Redirect(w, r, "/home", http.StatusSeeOther)
+		http.Redirect(w, r, "/donor/signup", http.StatusSeeOther)
 
 	}
 }
+
 
 func (dch *DonorHandler) Logout(w http.ResponseWriter, r *http.Request) {
 		donSess, _ := r.Context().Value(ctxUserSessionKey).(*models.Session)
@@ -299,105 +335,9 @@ func (dch *DonorHandler) loggedIn(r *http.Request) bool {
 	return true
 }
 
-func (dch *DonorHandler) GetDonors(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
-	donors, errs := dch.donorService.ViewAllDonor();
-	fmt.Println(donors)
 
-	if errs != nil {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
-
-	output, err := json.MarshalIndent(donors, "", "\t\t")
-
-	if err != nil {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(output)
-
-	return
-
-}
-
-func (dch *DonorHandler) GetDonor(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	username := ps.ByName("dlusername")
-	//password:=ps.ByName("dlpassword")
-	//donor:=models.Donor{
-	//	Username :username,
-	//	Password:password,
-	//}
-	//if err != nil {
-	//	w.Header().Set("Content-Type", "application/json")
-	//	http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-	//	return
-	//}
-
-	don,errs := dch.donorService.DonorByUsername(username)
-	fmt.Println(don )
-
-	if errs != nil {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
-
-	output, err := json.MarshalIndent(don, "", "\t\t")
-
-	if err != nil {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(output)
-	return
-}
-func (dch *DonorHandler) PostDonor(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-
-	l := r.ContentLength
-	body := make([]byte, l)
-	r.Body.Read(body)
-	donor:= &models.Donor{
-		FirstName:r.FormValue("firstName"),
-		LastName:r.FormValue("lastName"),
-		Address:r.FormValue("add"),
-		Occupation:r.FormValue("occupation"),
-		Username:r.FormValue("userName"),
-		Password:r.FormValue("password"),
-		EmailAddress:r.FormValue("email"),
-		PhoneNumber:r.FormValue("phone"),
-	}
-
-	err := json.Unmarshal(body, donor)
-
-	if err != nil {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
-
-	donor, errs := dch.donorService.SignupDonor(donor)
-
-	if errs != nil {
-		w.Header().Set("Content-Type", "application/json")
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		return
-	}
-
-	p := fmt.Sprintf("/v1/doner/%s", donor.Username)
-	w.Header().Set("Location", p)
-	w.WriteHeader(http.StatusCreated)
-	return
-}
-
-func (dch *DonorHandler) checkAdmin(r models.Role) bool {
+func (dch *DonorHandler) checkDonor(r models.Role) bool {
 
 		if strings.ToUpper(r.Name) == strings.ToUpper("donor") {
 			return true
