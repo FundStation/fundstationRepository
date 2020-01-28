@@ -1,6 +1,6 @@
 package models
 
 type BankAccount struct {
-	AccountNo      string
+	AccountNo      string  `json:"accountno"`
 	CurrentBalance float64
 }
