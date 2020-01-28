@@ -1,6 +1,6 @@
 package recipientInfo
 
-import "github.com/FundStation2/models"
+import "github.com/FundStation/models"
 
 type RecipientInfoService interface {
 	CreateRecipientInfo(recipientInfo models.RecipientInfo) error
