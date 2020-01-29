@@ -63,13 +63,29 @@ func (rr *RoleRepository) DonorRoles(donor *models.Donor) (models.Role, error) {
 func (rr *RoleRepository) RecipientRoles(recipient *models.Recipient) (models.Role, error) {
 	recpRole := models.Role{}
 
-	querystmt, err := rr.conn.Prepare("SELECT * FROM roles WHERE id=$2")
+	querystmt, err := rr.conn.Prepare("SELECT * FROM roles WHERE id=$1")
 
 	if err != nil {
 		return recpRole, err
 	}
 
 	err = querystmt.QueryRow(recipient.RoleID).Scan(&recpRole.Name, &recpRole.ID)
+	if err != nil {
+		return recpRole, err
+	}
+
+	return recpRole, nil
+}
+func (rr *RoleRepository)AdminRoles(admin *models.Admin) (models.Role, error) {
+	recpRole := models.Role{}
+
+	querystmt, err := rr.conn.Prepare("SELECT * FROM roles WHERE id=$1")
+
+	if err != nil {
+		return recpRole, err
+	}
+
+	err = querystmt.QueryRow(3).Scan(&recpRole.ID, &recpRole.Name)
 	if err != nil {
 		return recpRole, err
 	}
