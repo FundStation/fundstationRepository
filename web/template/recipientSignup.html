@@ -16,30 +16,62 @@
             </div>
             <div class="col-md-6">
                 <div class="card-body">
-                    <form>
+                    <form action="/recipient/signup" method="POST">
+                        <input type="hidden" name="_csrf" value="{{ .CSRF }}" />
                         <h4  style="font-weight: bold; margin-bottom: 20px; margin-top: 10px;">Do you want to sign up?</h4>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="firstName" placeholder="First Name" value='{{ .Values.Get "firstName" }}'required autofocus>
+                            {{with .VErrors.Get "firstName"}}
+                                <label class="text-danger">{{.}}</label>
+                            {{end}}
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="lastName" placeholder="Last Name" value='{{ .Values.Get "lastName" }}'required autofocus>
+                            {{with .VErrors.Get "lastName"}}
+                                <label class="text-danger">{{.}}</label>
+                            {{end}}
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="add" placeholder="Address" value='{{ .Values.Get "add" }}'required autofocus>
+                            {{with .VErrors.Get "add"}}
+                                <label class="text-danger">{{.}}</label>
+                            {{end}}
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="userName" placeholder="Username" value='{{ .Values.Get "userName" }}'required autofocus>
+                            {{with .VErrors.Get "userName"}}
+                                <label class="text-danger">{{.}}</label>
+                            {{end}}
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="password" placeholder="Password" required autofocus>
+                            {{with .VErrors.Get "password"}}
+                                <label class="text-danger">{{.}}</label>
+                            {{end}}
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="repassword" placeholder="Confirm Password" required autofocus>
+                            {{with .VErrors.Get "repassword"}}
+                                <label class="text-danger">{{.}}</label>
+                            {{end}}
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="phone" placeholder="Phone Number" value='{{ .Values.Get "phone" }}'required autofocus>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="First Name">
+                                {{with .VErrors.Get "phone"}}
+                                    <label class="text-danger">{{.}}</label>
+                                {{end}}
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="email" placeholder="Email" value='{{ .Values.Get "email" }}'required autofocus>
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Last Name">
+                                {{with .VErrors.Get "email"}}
+                                    <label class="text-danger">{{.}}</label>
+                                {{end}}
                             </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control"  placeholder="Address">
                         </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Username">
-                        </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control" placeholder="Password">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Phone Number">
-                        </div>
-                        <div class="form-group">
-                            <input type="email" class="form-control" placeholder="Email">
-                        </div>
-                        <a href="#" style="width: 320px; margin-top: 20px;" class="btn btn-primary">Sign Up</a>
+                        <button type="submit" style="width: 320px; margin-top: 20px;" class="btn btn-primary">Sign Up</button>
                     </form>
                 </div>
             </div>
@@ -47,8 +79,9 @@
     </div>
 
 
-<script src="/assets/js/bootstrap.bundle.min.js" ></script>
-<script src="/assets/js/jquery.js" ></script>
+<script src="../assets/js/bootstrap.min.js" ></script>
+<script src="../assets/js/jquery-3.4.1.js" ></script>
 
 </body>
+
 </html>
