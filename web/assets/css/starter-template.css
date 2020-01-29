@@ -1,0 +1,313 @@
+*,
+:before,
+:after {
+    box-sizing: border-box;
+}
+body{
+    background-color: whitesmoke;
+}
+.carousel-item{
+    height: 650px;
+    background: no-repeat center center scroll;
+    background-size: cover;
+}
+.nav-item{
+    border-right: 1px solid #bbb;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 0 10px 0 10px;
+}
+.nav-item:last-child {
+    border-right: none;
+}
+/* .icon{
+    right: 100px;
+} */
+.nav-colored {
+    background: url('../img/blue.png') no-repeat;
+    background-size: cover;
+}
+.nav-transparent { background-color:transparent;}
+
+.carousel-caption{
+    bottom: 180px;
+    left: -290px;
+}
+.carousel-caption h3{
+    margin-left: 170px;
+    font-size: 55px;
+    letter-spacing: 2px;
+    margin-top: 25px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    
+}
+.carousel-caption p{
+    font-size: 20px;
+    margin-left: 215px;
+    width: 60%;
+}
+/* .p2{
+    top: 500px;
+    margin-left: 215px;
+}  */
+.nav-link a:hover{
+    color: blue;
+}
+.btn{
+    padding: 15px 32px;
+    border-radius: 4px;
+    margin-left: -450px;
+    font-weight: bold;
+}
+/* .carousel-caption a{
+    text-transform: uppercase;
+    background: cyan;
+    padding: 10px 30px;
+    display: inline-block;
+    color: #fff;
+    margin-top: 15px;
+}
+ */
+.card-deck{
+    margin:70px 100px 100px 100px;
+}
+.card{
+    border: none;
+    background-color: white;
+}
+.card[data-clickable=true]{
+    cursor: pointer;
+}
+.card:hover{
+    -webkit-box-shadow: -1px 9px 40px -12px rgba(0,0,0,75);
+    -moz-box-shadow: -1px 9px 40px -12px rgba(0,0,0,75);
+    box-shadow: -1px 9px 40px -12px rgba(0,0,0,75);
+}
+#cat-card{
+    border: none;
+    background-color: white;
+}
+.category-body{
+    background-color: whitesmoke;
+}
+.headline{
+    text-align: justify;
+    margin-left: 100px;
+    margin-top: 60px;
+    font-weight: bold;
+    color: rgb(0, 174, 255);
+}
+.headline2{
+    text-align: justify;
+    margin-left: 100px;
+    margin-top: 150px;
+    font-weight: bold;
+    color: rgb(0, 174, 255);
+}
+.headline3{
+    text-align: justify;
+    margin-left: 100px;
+    margin-top: 50px;
+    font-weight: bold;
+    color: rgb(0, 174, 255);
+}
+.card-img-top{
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+.card-title{
+    font-weight: bold;
+    color: black;
+}
+.row{
+    height: 430px;
+    background-color: white;
+}
+.card-body{
+    margin-top: 40px;
+}
+.title{
+    margin-top: 50px;
+    text-align: center;
+    font-weight: bold;
+    color: rgb(0, 174, 255);
+}
+.desc{
+    display: inline-block;
+    width: 20%;
+    margin-top:60px;
+    margin-left: 150px;
+    color: gray;
+    text-align: justify;
+}
+.desc2{
+    display: inline-block;
+    width: 20%;
+    margin-left: 100px;
+    color: gray;
+    text-align: justify;
+}
+.desc3{
+    display: inline-block;
+    width: 20%;
+    margin-left: 100px;
+    text-align: justify;
+    color: gray;
+}
+.part2{
+    margin-top: 70px;
+    text-align: center;
+}
+
+.btn2{
+    padding: 15px 45px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+.part2 p{
+    margin-bottom: 40px;
+}
+.forminfo{
+    text-align: justify;
+    margin-left: 100px;
+    margin-top: 150px;
+}
+
+form h1 {
+    font-size: 3em;
+    font-weight: bold;
+    text-align: center;
+    color: #2196F3;
+}
+form h5 {
+    text-align: center;
+    color: #000000;
+}
+form hr.sep {
+    background: #2196F3;
+    box-shadow: none;
+    border: none;
+    height: 2px;
+    width: 75%;
+    margin: 0px auto 45px auto;
+}
+form .emoji {
+    font-size: 1.2em;
+}
+
+.group {
+    position: relative;
+    margin: 45px 0;
+}
+
+textarea {
+    resize: none;
+}
+
+input[type=text],
+textarea {
+    background: none;
+    color: #c6c6c6;
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 320px;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #c6c6c6;
+}
+input[type=text]:focus,
+textarea:focus {
+    outline: none;
+}
+input[type=text]:focus ~ label, input:valid ~ label,
+textarea:focus ~ label,
+textarea:valid ~ label {
+    top: -14px;
+    font-size: 12px;
+    color: #2196F3;
+}
+input[type=text]:focus ~ .bar:before,
+textarea:focus ~ .bar:before {
+    width: 320px;
+}
+
+input[type="password"] {
+    letter-spacing: 0.3em;
+}
+
+label {
+    color: #c6c6c6;
+    font-size: 16px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 10px;
+    transition: 300ms ease all;
+}
+
+.bar {
+    position: relative;
+    display: block;
+    width: 320px;
+}
+.bar:before {
+    content: '';
+    height: 2px;
+    width: 0;
+    bottom: 0px;
+    position: absolute;
+    background: #2196F3;
+    transition: 300ms ease all;
+    left: 0%;
+}
+
+.btn {
+    background: #fff;
+    color: #959595;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    outline: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.btn:hover {
+    color: #8b8b8b;
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.18), 0 5px 5px rgba(0, 0, 0, 0.12);
+}
+.btn.btn-link {
+    background: #2196F3;
+    color: #d3eafd;
+}
+.btn.btn-link:hover {
+    background: #0d8aee;
+    color: #deeffd;
+}
+.btn.btn-submit {
+    background: #2196F3;
+    color: #bce0fb;
+}
+.btn.btn-submit:hover {
+    background: #0d8aee;
+    color: #deeffd;
+}
+.btn.btn-cancel {
+    background: #eee;
+}
+.btn.btn-cancel:hover {
+    background: #e1e1e1;
+    color: #8b8b8b;
+}
+
+.btn-box {
+    text-align: center;
+    margin: 50px 0;
+}
+
+
