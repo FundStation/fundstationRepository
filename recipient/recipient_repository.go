@@ -9,7 +9,12 @@ type RecipientRepository interface {
 	SelectRecipient(recipient models.Recipient) error
 	SelectAllRecipient() ([]models.Recipient, error)
 	RecipientByUsername(username string)(*models.Recipient,error)
+	RecipientById(id int) (*models.Recipient,error)
+	UpdateRecipientById(donor *models.Recipient) (error)
+	DeleteRecipientById(donor *models.Recipient) (error)
+	SelectByUsername(string) ( *models.RecipientInfo, error)
 	UsernameExists(username string) bool
 	EmailExists(email string) bool
 	PhoneExists(phone string) bool
 }
+
