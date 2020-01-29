@@ -1,5 +1,5 @@
 {{ define "specificEntity.layout" }}
-    {{ template "navbar" . }}
+    {{ template "navbar2" . }}
 {{ template "specificEntity.content" . }}
 {{ template "footer" . }}
 
@@ -7,11 +7,11 @@
 
 {{ define "specificEntity.content" }}
 <body>
-<form method="post" >
+<form method="post" action="/donor">
 <div class="card" style="width: 90%; height: 550px; margin:100px 80px 0px 80px; align-content: center;">
     <div class="card-body">
-        <p style="color: rgb(0,0,0); font-size: 20px; margin-top: -30px;"><input type="text" name="Eaccount" value="{{.BankAccount.AccountNo}}"></p>
-        <h5 class="card-title" style="color: rgb(0, 174, 255); margin-top: -30px;"><input type="text" name="Ename" value="{{.Name}}">{{.Name}}</h5>
+        <p style="color: rgb(0,0,0); font-size: 20px; margin-top: -30px;"><input type="hidden" name="Eaccount" value="{{.BankAccount.AccountNo}}"></p>
+        <h5 class="card-title" style="color: rgb(0, 174, 255); margin-top: -30px;"><input type="hidden" name="Ename" value="{{.Name}}">{{.Name}}</h5>
     </div>
     <img src="../assets/img/{{.Image}}" alt="image not found" style="width: 100%; height: 80%;">
 </div>
@@ -19,7 +19,7 @@
     <div class="card-body">
         <p style="color: rgb(0,0,0); font-size: 20px; margin-top: -30px;">{{.Description}}</p>
     </div>
-    <a href="/dosignup" style="margin:100px 500px 30px 500px; background-color: #007bff; color: white; height: 65px;" class="btn btn-primary">Donate</a>>
+    <button type="submit" style="margin:100px 500px 30px 500px; background-color: #007bff; color: white; height: 65px;" class="btn btn-primary">Donate</button>
 </div>
 
 </form>
