@@ -11,6 +11,7 @@ type RoleRepository interface {
 	StoreRole(role *models.Role) (error)
 	DonorRoles(donor *models.Donor) (models.Role, error)
 	RecipientRoles(donor *models.Recipient) (models.Role, error)
+	AdminRoles(donor *models.Admin) (models.Role, error)
 }
 
 type SessionRepository interface {
