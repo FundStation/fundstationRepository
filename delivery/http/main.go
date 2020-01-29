@@ -56,7 +56,9 @@ func main() {
 
 	admRepo := admin_repository.NewPsqlAdminRepository(dbcon)
 	admServ := admin_service.NewAdminService(admRepo)
-
+	
+	disRepo := disaster_repository.NewPsqlDisasterRepository(dbcon)
+	disServ := disaster_service.NewDisasterService(disRepo)
 
 
 	roleRepo := role_repository.NewRoleRepository(dbcon)
@@ -70,6 +72,7 @@ func main() {
 	rich:= handler.NewRecipientInfoHandler(tmpl, recInfoServ, csrfSignKey)
 	ch := handler.NewCategoryHandler(tmpl,catServ)
 	ah := handler.NewAdminHandler(tmpl,admServ,sessionSrv,roleServ,sess,csrfSignKey)
+	dish := handler.NewDisasterHandler(tmpl,disServ)
 
 
 	dah:= REST_API.NewDonorApiHandler(donServ)
@@ -85,7 +88,10 @@ func main() {
 	//http.HandleFunc("/donor/signup", dch.DonorSignup)
 	http.HandleFunc("/donor/login",dch.DonorLogin)
 	//http.HandleFunc("/donors",dch.Doners)
-
+	
+	http.HandleFunc("/disaster",dish.SelectDisasters)
+	http.HandleFunc("/event",dish.SelectEvents)
+	
 	http.HandleFunc("/recipient/signup",rch.RecipientSignup)
 	http.HandleFunc("/recipient/login",rch.RecipientLogin)
 	http.HandleFunc("/admin",ah.AdminLogin)
