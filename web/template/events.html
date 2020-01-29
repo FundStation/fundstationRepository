@@ -1,0 +1,30 @@
+{{ define "event.layout" }}
+
+    {{ template "navbar2" . }}
+    {{ template "event.content" . }}
+    {{ template "footer" . }}
+
+{{ end }}
+
+{{ define "event.content" }}
+
+    <div id="selectordiv" style="display: none">white</div>
+    <h1 class="headline3" style="margin-top: 100px;">Events</h1>
+    {{range .}}
+            <div class="card mb-3" style="margin-left: 100px; margin-right: 100px; margin-top: 50px; ">
+                <div class="row no-gutters" style="height: 400px;">
+                    <div class="col-md-7">
+                        <img src="../assets/img/{{.Image}}" class="card-img" alt="..." style="height:400px; width: 600px;">
+                    </div>
+                    <div class="col-md-5">
+                        <div class="card-body" style="margin-left: -50px">
+                            <h5 class="card-title" style="color: rgb(0, 174, 255); margin-top: -30px;"><input type="hidden" value="{{.Name}}" name="catName">{{.Name}}</h5>
+                            <p class="card-text">{{.Description}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    {{end}}
+
+
+{{ end }}
