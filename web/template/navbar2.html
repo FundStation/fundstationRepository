@@ -1,0 +1,54 @@
+{{define "navbar2" }}
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <!-- css -->
+        <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../assets/css/starter-template.css">
+
+    </head>
+    <body>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mynav" style="background: rgb(0, 174, 255); background-size: cover;">
+        <div class="container">
+            <a class="navbar-brand" href="#" style="color: white;">FundStation</a>
+            <a class="navbar-brand" href="#" style="color: white;"><img src="../assets/img/logo2.svg" style="width: 150px; height: 60px; margin-left: 10px;"></a>
+            <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button> -->
+            <!-- <a class="navbar-brand" href="#">FundStation</a> -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/home" style="color: white;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/event" style="color: white;">Events</a>
+                    </li>
+
+                    <!-- <li class="nav-item">
+                            <a class="nav-link" href="#" style="color: white;">Portfolio</a>
+                    </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/disaster" style="color: white;">Recent Disasters</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" style="color: white" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Categories
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/category/medical">Medical</a>
+                            <a class="dropdown-item" href="/category/education">Educational</a>
+                            <a class="dropdown-item" href="/category/religious">Religious</a>
+                            <a class="dropdown-item" href="/individual/all">Individuals</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/category">See all</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+{{ end }}
