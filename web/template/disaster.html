@@ -1,0 +1,35 @@
+{{ define "disaster.layout" }}
+
+    {{ template "navbar2" . }}
+    {{ template "disaster.content" . }}
+    {{ template "footer" . }}
+
+{{ end }}
+
+{{ define "disaster.content" }}
+
+    <div id="selectordiv" style="display: none">white</div>
+    <h1 class="headline3" style="margin-top: 100px;">Disaster</h1>
+    {{range .}}
+
+    <form method="post" action="/donor">
+        <div class="card mb-3" style="margin-left: 100px; margin-right: 100px; margin-top: 50px; ">
+            <div class="row no-gutters" style="height: 400px;">
+                <div class="col-md-7">
+                    <img src="../assets/img/{{.Image}}" class="card-img" alt="..." style="height:400px; width: 600px;">
+                </div>
+                <div class="col-md-5">
+                    <div class="card-body" style="margin-left: -50px">
+                        <p style="color: rgb(0,0,0); font-size: 20px; margin-top: -30px;"><input type="hidden" name="Eaccount" value="{{.BankAccount.AccountNo}}"></p>
+                        <h5 class="card-title" style="color: rgb(0, 174, 255); margin-top: -30px;"><input type="hidden" value="{{.Name}}" name="catName">{{.Name}}</h5>
+                        <p class="card-text">{{.Description}}</p>
+                        <button type="submit" style="margin-left: 200px; margin-top:60px; background-color: #007bff; color: white; height: 50px;" class="btn btn-primary">Donate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    {{end}}
+
+
+{{ end }}
