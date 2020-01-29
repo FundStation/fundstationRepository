@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <body>
+  
+        <table style="width:100%" border="1">
+            <tr>
+                <th></th>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Address</th>
+                <th>Occupation</th>
+                <th>Phone Number</th>
+                <th>Email Address</th>
+                <th></th>
+            </tr>
+    {{ range .Recipients}}
+    <form action="/admin/specific" method="post">
+        <tr>
+                    
+        <td ><input type="hidden" value="{{.RecipientNo}}" name="rNo" ></td>
+        <td>{{.RecipientNo}}</td>
+        <td>{{ .FirstName}}</td>
+       <td> {{ .LastName}}</td>
+        
+       <td>{{ .Address}}</td>
+       <td>{{ .Occupation}}</td>
+       <td>{{ .PhoneNumber}}</td>
+       <td>{{ .EmailAddress}}</td>
+       <td><input type="submit" value="View"></td>
+       
+     
+    </tr>
+    </form>
+    {{else}}
+    {{.}}
+    {{ end }}
+</table>
+    
+    </body>
+</html>
