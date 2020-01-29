@@ -18,7 +18,7 @@
     <div class="wrapper">
         <div class="card" style="width: 1000px; margin: 80px 200px">
             <div class="card-body">
-                <form method="POST" action="/recipientInfo" enctype="multipart/form-data">
+                <form method="post" action="/recipientInfo/create" enctype="multipart/form-data">
                     <h1>FundStation</h1>
                     <h5>Hello there! Please attach a file that proves that you need our help. And write a description of you situation so people can read it and donate!</h5>
                     <hr class="sep"/>
@@ -47,6 +47,12 @@
                         <button type="button" id="custom-btn2">CHOOSE FILE</button>
                         <span id="custom-txt2">Click to upload file</span>
                     </div>
+                    <h4>Goal</h4>
+                    <p style="color: #808080">Enter the amount of money you need: </p>
+                    <div class="group">
+                        <input type="text" required="required" name="goal" value='{{ .Values.Get "goal" }}'/><span class="highlight"></span><span class="bar"></span>
+                        <label>Goal</label>
+                    </div>
                     <div class="btn-box">
                         <button class="btn btn-submit" type="submit">submit</button>
                         <button class="btn btn-cancel" type="button">cancel</button>
@@ -56,7 +62,7 @@
         </div>
 
     </div>
-
+    <a href="/logout"><button>Logout</button></a>
     <script src="../assets/js/bootstrap.min.js" ></script>
     <script src="../assets/js/jquery-3.4.1.js" ></script>
 
