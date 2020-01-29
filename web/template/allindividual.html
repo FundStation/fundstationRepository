@@ -1,0 +1,35 @@
+{{ define "allindividual.layout" }}
+
+    {{ template "navbar2" . }}
+    {{ template "allindividual.content" . }}
+    {{ template "footer" . }}
+
+{{ end }}
+
+{{ define "allindividual.content" }}
+
+
+<div id="selectordiv" style="display: none">white</div>
+<h1 class="headline2">Individuals</h1>
+    {{range .}}
+        <div class="card mb-3" data-clickable="true" data-href="/{{.RecipientNo}}" style="margin-left: 100px; margin-right: 100px; margin-top: 50px; ">
+            <div class="row no-gutters" style="height: 400px;">
+                <div class="col-md-7">
+                    <img src="../assets/img/{{.Image}}" class="card-img" alt="..." style="height:400px; width: 600px;">
+                </div>
+                <div class="col-md-5">
+                    <div class="card-body" style="margin-left: -50px">
+                        {{/*                   <h5 class="card-title">Card title</h5>*/}}
+                        <p class="card-text"><small class="text-muted">{{.Date}}</small></p>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="{{.Current}}" aria-valuemin="0" aria-valuemax="100" style="width: {{.Current}}%;">
+                                {{.Current}}%
+                            </div>
+                        </div>
+                        <p><b>{{.Balance}} birr raised</b> out of {{.Goal}} birr</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{end }}
+  {{end }}
