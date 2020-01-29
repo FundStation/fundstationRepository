@@ -6,15 +6,19 @@
         <script src="jquery-3.4.1.js"></script>
     </head>
     <body>
-        <form action="/dlogin" method="POST">
+        <form action="/donor/login" method="post">
+            <input type="hidden" name="_csrf" value="{{ .CSRF }}" />
             <div style="display:block;">
                 <label>User Name:</label>
                 <input type="text" name="dlusername" placeholder="User Name">
             </div>
             <div style="display:block;">
                 <label>Password:</label>
-                <input type="text" name="dlpassword" placeholder="Password">
+                <input type="password" name="dlpassword" placeholder="Password">
             </div>
+            {{with .VErrors.Get "generic"}}
+                <label class="text-danger">{{.}}</label>
+            {{end}}
             <input type="submit">
         </div>
         <div style="display:block;">
