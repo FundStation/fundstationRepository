@@ -14,7 +14,10 @@
                     <div class="carousel-caption d-none d-md-block">
                       <h3>Giving and recieving made easy!</h3>
                       <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                      <a href="#" class="btn btn-primary">Create Account</a>
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        CREATE ACCOUNT
+                      </button>
+
                     </div>
                 </div>
                 <div class="carousel-item">
@@ -22,7 +25,9 @@
                   <div class="carousel-caption d-none d-md-block">
                     <h3>Giving and recieving made easy!</h3>
                     <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                    <a href="#" class="btn btn-primary">Create Account</a>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                      CREATE ACCOUNT
+                    </button>
                   </div>
                 </div>
                 <div class="carousel-item">
@@ -30,7 +35,9 @@
                   <div class="carousel-caption d-none d-md-block">
                     <h3>Giving and recieving made easy!</h3>
                     <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                    <a href="#" class="btn btn-primary">Create Account</a>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                      CREATE ACCOUNT
+                    </button>
                   </div>
                 </div>
                 <div class="carousel-item">
@@ -38,7 +45,9 @@
                   <div class="carousel-caption d-none d-md-block">
                     <h3>Giving and recieving made easy!</h3>
                     <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                    <a href="#" class="btn btn-primary">Create Account</a>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                      CREATE ACCOUNT
+                    </button>
                   </div>
                 </div>
                 <div class="carousel-item">
@@ -46,7 +55,9 @@
                   <div class="carousel-caption d-none d-md-block">
                     <h3>Giving and recieving made easy!</h3>
                     <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                    <a href="#" class="btn btn-primary">Create Account</a>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                      CREATE ACCOUNT
+                    </button>
                   </div>
                 </div>
                 <div class="carousel-item">
@@ -54,11 +65,34 @@
                   <div class="carousel-caption d-none d-md-block">
                     <h3>Giving and recieving made easy!</h3>
                     <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                    <a href="#" class="btn btn-primary">Create Account</a>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                      CREATE ACCOUNT
+                    </button>
+
                   </div>
                 </div>
               </div>
-              
+              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document" style="width: 400px;">
+                  <div class="modal-content">
+                    <div class="modal-header" style="text-align: center;">
+                      <h4 style="text-align: center; color:  #007bff;">Login</h4>
+                    </div>
+                    <div class="modal-body">
+                      <form action="/recipient/login" method="post">
+                        <div class="form-group">
+                          <input type="text" style="width: 100%;" class="form-control" name="lusername" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                          <input type="password" class="form-control" name="lpassword" placeholder="Password">
+                        </div>
+                        <button type="submit" style="width: 100%; margin-top: 20px; background-color: #007bff; border: none; color: white; text-align: center; padding: 15px 32px; text-decoration: none; font-size: 16px; box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)">Login</button>
+                        <p style="margin-top: 40px;">Don't have an account? Click here to <a href="/recipient/signup">Signup</a></p>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <h1 class="headline">Top Fundraising</h1>
             <div class="card-deck">
@@ -84,22 +118,22 @@
 
             <div class="card mb-3" style="margin-left: 100px; margin-right: 100px;">
               <div class="row no-gutters">
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
                       <div class="carousel-item active">
-                          <img src="../assets/img/charitypic7.jpg" class="d-block w-100" style="height: 64%;" alt="...">
+                          <img src="../assets/img/charitypic5.jpg" class="d-block w-100" style="height: 49%;" alt="...">
                       </div>
                       <div class="carousel-item">
-                        <img src="../assets/img/charitypic8.jpg" class="d-block w-100" style="height: 64%;" alt="...">
+                        <img src="../assets/img/charitypic3.jpg" class="d-block w-100" style="height: 49%;" alt="...">
                       </div>
                       <div class="carousel-item">
-                        <img src="../assets/img/charitypic4.jpg" class="d-block w-100" style="height: 64%;" alt="...">
+                        <img src="../assets/img/charitypic2.jpeg" class="d-block w-100" style="height: 49%;" alt="...">
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-8">
                   <div class="card-body">
                     <h2 class="card-title">FundStation Fundraising</h2>
                     <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
@@ -121,7 +155,7 @@
             <div class="part2">
               <h4>Do you want to start your fundraising journey with us?</h4>
               <p>create a recipient account and start your fundraising.</p>
-              <a href="#" class="btn2 btn-primary">Create Account</a>
+              <a href="/recipient/signup" class="btn2 btn-primary">Create Account</a>
            </div>
 
-{{ end }}         
+{{ end }}            
