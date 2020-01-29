@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"github.com/FundStation2/disaster"
+	"github.com/FundStation/disaster"
 	"html/template"
 	"net/http"
 )
