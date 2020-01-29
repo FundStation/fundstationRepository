@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table style="width:100%" border="1">
+    <tr>
+        <th></th>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Address</th>
+        <th>Occupation</th>
+        <th>Phone Number</th>
+        <th>Email Address</th>
+        <th></th>
+    </tr>
+    {{ range .Donors}}
+
+
+            <tr>
+
+
+                <td>{{.DonorNo}}</td>
+                <td>{{ .FirstName}}</td>
+                <td> {{ .LastName}}</td>
+
+                <td>{{ .Address}}</td>
+                <td>{{ .Occupation}}</td>
+                <td>{{ .PhoneNumber}}</td>
+                <td>{{ .EmailAddress}}</td>
+                <td>{{.Username}}</td>
+
+
+
+            </tr>
+
+    {{ end }}
+
+</table>
+
+</body>
+</html>
