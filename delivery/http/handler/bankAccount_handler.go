@@ -2,7 +2,7 @@ package handler
 
 import (
 	"fmt"
-	bankAct2 "github.com/FundStation2/bankAct"
+	bankAct2 "github.com/FundStation/bankAct"
 	"strconv"
 
 	"net/http"
