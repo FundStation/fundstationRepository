@@ -90,3 +90,10 @@ func (rs *RoleService) RecipientRoles(recipient *models.Recipient) (models.Role,
 	}
 	return recpRoles, err
 }
+func (rs *RoleService) AdminRoles(admin *models.Admin) (models.Role, error) {
+	recpRoles, err := rs.roleRepo.AdminRoles(admin)
+	if err != nil {
+		return recpRoles, err
+	}
+	return recpRoles, err
+}
