@@ -75,5 +75,26 @@ func (mRecipientRepo *MockRecipientRepo) RecipientByUsername(username string) (*
 	return nil,errors.New("Not found")
 }
 
+func (mRecipientRepo *MockRecipientRepo) RecipientById(id int) (*models.Recipient,error) {
 
+	if id == 1 {
+
+		return &models.RecipientMock,nil
+	}
+	return nil,errors.New("Not found")
+}
+
+func (mRecipientRepo *MockRecipientRepo) UpdateRecipientById(recipient *models.Recipient) (error) {
+
+	return nil
+}
+
+func (mRecipientRepo *MockRecipientRepo) DeleteRecipientById(recipient *models.Recipient) (error) {
+
+	return nil
+}
+
+func (mRecipientRepo *MockRecipientRepo) SelectByUsername(username string)(*models.RecipientInfo,error){
+	return &models.RecipientInfoMock,nil
+}
 
