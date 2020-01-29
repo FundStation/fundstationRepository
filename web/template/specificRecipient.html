@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <body>
+    <form action="/approve" method="post">
+
+            <div style="display:block;">
+        <label>ID:</label>
+        <input type="text" name="recipientInfoId" value="{{.ID}}">
+        </div>
+        <div style="display:block;">
+            <label>Image: </label>
+       <img src="../assets/img/{{.Image}}">
+        </div>
+        <div style="display:block;">
+            <label>Description:</label>
+            <input type="text" value="{{.Description}}">
+            </div>
+            <div style="display:block;">
+                <label>Attachment:</label>
+                <a href="../assets/attachment/{{.Attachment}}" target="_blank">Click to open the attached file</a>
+            </div>
+            <div style="display:block;">
+                <label>Date:</label>
+                <input type="text" value="{{.Date}}">
+                <p>date.Fo</p>
+            </div>
+
+
+        <div style="display:block;">
+            <label>AccountNo</label>
+        <input type="text" value="{{.BankAccount.AccountNo}}">
+
+        </div>
+        <div style="display:block;">
+            <label>Goal:</label>
+            <input type="text" value="{{.Goal}}">
+        </div>
+        <div style="display:block;">
+            <input type="submit" value="Approve">
+        </div>
+    </form>
+    </body>
+</html>
