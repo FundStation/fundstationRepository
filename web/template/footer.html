@@ -9,7 +9,7 @@
             <!-- Footer links -->
             <div class="row text-center text-md-left mt-3 pb-3" style="background-color:#010041; color: white; height: 300px;">
 
-               <!-- Grid column -->
+                <!-- Grid column -->
                 <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
                     <h6 class="text-uppercase mb-4 font-weight-bold">FundStation</h6>
                     <p> We help you give and recieve, we make both giving and recieving easy. You can count on us if you need a donation. </p>
@@ -22,7 +22,7 @@
                 <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
                     <h6 class="text-uppercase mb-4 font-weight-bold">Help</h6>
                     <p>
-                        <a href="#!">How it works</a>
+
                     </p>
                 </div>
                 <!-- Grid column -->
@@ -33,16 +33,16 @@
                 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
                     <h6 class="text-uppercase mb-4 font-weight-bold">Top Categories</h6>
                     <p>
-                        <a href="#!">Medical</a>
+                        <a href="/category/medical">Medical</a>
                     </p>
                     <p>
-                        <a href="#!">Religious</a>
+                        <a href="/category/religious">Religious</a>
                     </p>
                     <p>
-                        <a href="#!">Educationals</a>
+                        <a href="/category/education">Educationals</a>
                     </p>
                     <p>
-                        <a href="#!">Orphanage</a>
+                        <a href="/category/orphanage">Orphanage</a>
                     </p>
                 </div>
 
@@ -63,14 +63,13 @@
                 </div>
                 <!-- Grid column -->
 
-
             </div>
             <!-- Copyright -->
             <div class="footer-copyright text-center py-3" style="background-color:#010041; color: white;">© 2018 Copyright:
                 <span> FundStation</span>
             </div>
         </div>
-            <!-- Copyright -->
+        <!-- Copyright -->
 
     </footer>
     <!-- Footer -->
@@ -78,89 +77,93 @@
 
     <script src="/assets/js/jquery.js" ></script>
 
-<script>
+    <script>
 
-        var myNav = document.getElementById('mynav');
         $(document).ready(() => {
             $(document.body).on('click', '.card[data-clickable=true]', (e) => {
                 var href = $(e.currentTarget).data('href');
                 window.location = href;
             });
         });
-         window.onscroll = function () { 
-             "use strict";
-             if (document.body.scrollTop >= 200 ) {
-                 myNav.classList.add("nav-colored");
-                 myNav.classList.remove("nav-transparent");
-             } 
-             else {
-                 myNav.classList.add("nav-transparent");
-                 myNav.classList.remove("nav-colored");
-             }
-         };
+        var myNav = document.getElementById('mynav');
+        window.onscroll = function () {
+            "use strict";
+            if (document.body.scrollTop >= 200) {
+                myNav.classList.add("nav-colored");
+                myNav.classList.remove("nav-transparent");
+            } else {
+                myNav.classList.add("nav-transparent");
+                myNav.classList.remove("nav-colored");
+            }
+        };
 
+    </script>
+    <script>
+        const readImgBtn = document.getElementById("read-img");
+        const readFileBtn = document.getElementById("read-file");
+        const customBtn = document.getElementById("custom-btn");
+        const customBtn2 = document.getElementById("custom-btn2");
+        const customTxt = document.getElementById("custom-txt");
+        const customTxt2 = document.getElementById("custom-txt2");
+        customBtn.addEventListener("click", function () {
+            readImgBtn.click();
+        });
+        customBtn2.addEventListener("click", function () {
+            readFileBtn.click();
+        });
 
-</script>
-     <script>
-            const readImgBtn = document.getElementById("read-img");
-            const readFileBtn = document.getElementById("read-file");
-            const customBtn = document.getElementById("custom-btn");
-            const customBtn2 = document.getElementById("custom-btn2");
-            const customTxt = document.getElementById("custom-txt");
-            const customTxt2 = document.getElementById("custom-txt2");
-            customBtn.addEventListener("click", function () {
-                readImgBtn.click();
-            });
-            customBtn2.addEventListener("click", function () {
-                readFileBtn.click();
-            });
+        readImgBtn.addEventListener("change", function () {
+            if (readImgBtn.value) {
+                customTxt.innerHTML = readImgBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+            }
+            else {
+                customTxt.innerHTML = "Click to upload file";
+            }
+        });
+        readFileBtn.addEventListener("change", function () {
+            if (readFileBtn.value) {
+                customTxt2.innerHTML = readFileBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+            }
+            else {
+                customTxt2.innerHTML = "Click to upload file";
+            }
+        });
 
-            readImgBtn.addEventListener("change", function () {
-               if (readImgBtn.value) {
-                   customTxt.innerHTML = readImgBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
-               }
-               else {
-                   customTxt.innerHTML = "Click to upload file";
-               }
-            });
-            readFileBtn.addEventListener("change", function () {
-                if (readFileBtn.value) {
-                    customTxt2.innerHTML = readFileBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
-                }
-                else {
-                    customTxt2.innerHTML = "Click to upload file";
-                }
-            });
+    </script>
 
-        </script>
-<script>
-            var submit = document.getElementById('donateCash'),
-                checkbox = document.getElementById('checkKind'),
-                text = document.getElementById('cashText'),
-                disableSubmit = function(e) {
-                    submit.disabled = this.checked
-                    text.disabled = this.checked
+    <script>
+        var submit = document.getElementById('donateCash'),
+            checkbox = document.getElementById('checkKind'),
+            text = document.getElementById('cashText'),
+            disableSubmit = function(e) {
+                submit.disabled = this.checked
+                text.disabled = this.checked
 
-                };
+            };
 
-            checkbox.addEventListener('change', disableSubmit);
+        checkbox.addEventListener('change', disableSubmit);
 
-            var submitt = document.getElementById('donateKind'),
-                checkboxx = document.getElementById('checkCash'),
-                text1 = document.getElementById('kindText'),
-                dropright = document.getElementById('type'),
-                disableSubmitt = function(e) {
-                    submitt.disabled = this.checked
-                    text1.disabled = this.checked
-                    dropright.disabled =this.checked
-                };
+        var submitt = document.getElementById('donateKind'),
+            checkboxx = document.getElementById('checkCash'),
+            text1 = document.getElementById('kindText'),
+            dropright = document.getElementById('type'),
+            disableSubmitt = function(e) {
+                submitt.disabled = this.checked
+                text1.disabled = this.checked
+                dropright.disabled =this.checked
+            };
 
-            checkboxx.addEventListener('change', disableSubmitt);
-        </script>
+        checkboxx.addEventListener('change', disableSubmitt);
+    </script>
+    <script>
+        $(".dropdown-menu li a").click(function(){
+            $(this).parents(".dropright").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+            $(this).parents(".dropright").find('.btn').val($(this).data('value'));
+        });
+    </script>
 
+    <script src="/assets/js/bootstrap.bundle.min.js" ></script>
 
-<script src="/assets/js/bootstrap.bundle.min.js" ></script>
-
-</body>
-</html>
+    </body>
+    </html>
 {{ end }}
