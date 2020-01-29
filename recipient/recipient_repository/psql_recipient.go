@@ -3,8 +3,8 @@ package recipient_repository
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"github.com/FundStation/models"
-	"github.com/jinzhu/gorm"
 )
 
 
@@ -65,19 +65,18 @@ func (pr *PsqlRecipientRepository) SelectAllRecipient() (recipients []models.Rec
 }
 func (pr *PsqlRecipientRepository) PhoneExists(phone string) bool {
 
+	var name string
+	err := pr.conn.QueryRow("SELECT firstname FROM recipient WHERE phone=$1",phone).Scan(&name)
 
-
-	err := pr.conn.QueryRow("SELECT * FROM recipient WHERE phone=$1",phone)
-
-	if err != nil {
+	if err != nil  {
 		return false
 	}
-
 	return true
 }
-func (pr *PsqlRecipientRepository) UsernameExists(username string) bool {
-	err := pr.conn.QueryRow("SELECT * FROM recipient WHERE username=$1",username)
 
+func (pr *PsqlRecipientRepository) UsernameExists(username string) bool {
+	var name string
+	err:= pr.conn.QueryRow("SELECT firstname FROM recipient WHERE username=$1",username).Scan(&name)
 	if err != nil {
 		return false
 	}
@@ -87,7 +86,8 @@ func (pr *PsqlRecipientRepository) UsernameExists(username string) bool {
 
 // EmailExists check if a given email is found
 func (pr *PsqlRecipientRepository) EmailExists(email string) bool {
-	err := pr.conn.QueryRow("SELECT * FROM recipient WHERE email=$1", email)
+	var name string
+	err := pr.conn.QueryRow("SELECT firstname FROM recipient WHERE email=$1",email).Scan(&name)
 
 	if err != nil {
 		return false
@@ -108,68 +108,56 @@ func (pr *PsqlRecipientRepository) RecipientByUsername(username string) (*models
 	return recipient,nil
 }
 
+func (pr *PsqlRecipientRepository) RecipientById(id int) (*models.Recipient,error) {
+	recipient:=&models.Recipient{}
+	querystmt, err := pr.conn.Prepare("SELECT * FROM recipient WHERE id=$1")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-type RecipientGormRepo struct {
-	conn *gorm.DB
-}
-
-// NewCommentGormRepo returns new object of CommentGormRepo
-func NewRecipientGormRepo(db *gorm.DB) *RecipientGormRepo{
-	return &RecipientGormRepo{conn: db}
-}
-
-// StoreComment stores a given customer comment in the database
-func (recpRepo *RecipientGormRepo) InsertRecipientGorm(recp *models.Recipient) (*models.Recipient, []error) {
-	recipient := recp
-	errs := recpRepo.conn.Create(recipient).GetErrors()
-	if len(errs) > 0 {
-		return nil, errs
+	if err != nil {
+		fmt.Println(err)
+		return recipient,err
 	}
-	return recipient, errs
-}
-
-
-// Comments returns all customer comments stored in the database
-func (recpRepo *RecipientGormRepo) SelectAllRecipientGorm() ([]models.Recipient, []error) {
-	recipient := []models.Recipient{}
-	errs := recpRepo.conn.Find(&recipient).GetErrors()
-	if len(errs) > 0 {
-		return nil, errs
+	err = querystmt.QueryRow(id).Scan(&recipient.RecipientNo,&recipient.FirstName, &recipient.LastName, &recipient.Address, &recipient.Occupation,&recipient.Username,&recipient.Password, &recipient.PhoneNumber, &recipient.EmailAddress,&recipient.RoleID)
+	if err != nil{
+		fmt.Println("error",err)
 	}
-	return recipient, errs
+	fmt.Println("donr",recipient)
+
+	return recipient,nil
 }
+func (pr *PsqlRecipientRepository) UpdateRecipientById(recipient *models.Recipient) (error) {
 
-// Comment retrieves a customer comment from the database by its id
-func (recpRepo *RecipientGormRepo) SelectRecipientGorm(username string) (*models.Recipient, []error) {
-	recipient := models.Recipient{}
-	errs := recpRepo.conn.First(&recipient,"username=?", username).GetErrors()
+	_, err := pr.conn.Exec("UPDATE recipient set lastname = $2 where id=$1",recipient.RecipientNo,recipient.LastName)
 
-	if len(errs) > 0 {
-		return nil, errs
+	if err != nil {
+		fmt.Println(err)
+		return err
 	}
-	return &recipient, errs
+
+
+	return nil
+}
+func (pr *PsqlRecipientRepository) DeleteRecipientById(recipient *models.Recipient) (error) {
+
+	_, err := pr.conn.Exec("DELETE FROM recipient where id=$1",recipient.RecipientNo)
+
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+
+	return nil
+}
+func (pr *PsqlRecipientRepository) SelectByUsername(username string) ( *models.RecipientInfo, error){
+	recipientInfo := &models.RecipientInfo{}
+	recp := &models.Recipient{}
+	err := pr.conn.QueryRow("SELECT firstname,lastname,image,description  FROM recipient INNER JOIN recipientinfo ON recipientinfo.recipient_id = recipient.id  WHERE recipient.username =$1",username).Scan(&recp.FirstName,&recp.LastName,&recipientInfo.Image,&recipientInfo.Description)
+	recipientInfo.Recipient=recp
+	if err != nil {
+		fmt.Println("Erro",err)
+
+	}
+
+	return recipientInfo,nil
 }
 
